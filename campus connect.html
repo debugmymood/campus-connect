@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CampusConnect</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1128;--surf:#111b3a;--surf2:#18254d;--line:#243364;--tx:#e8edff;--mut:#93a0c8;--blue:#3b82f6;--cyan:#22d3ee;--vio:#8b5cf6;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:#050a1a;color:var(--tx);font-family:Manrope,system-ui,sans-serif;display:flex;justify-content:center;align-items:center}
+h1,h2,h3,.d{font-family:Sora,system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+#app{width:100%;max-width:420px;height:100%;max-height:860px;background:var(--bg);position:relative;display:flex;flex-direction:column;overflow:hidden}
+@media(min-width:500px){#app{height:min(860px,94vh);border-radius:36px;border:1px solid var(--line);box-shadow:0 30px 80px #000a}}
+main{flex:1;overflow-y:auto;padding:20px 18px 24px}
+.screen{display:none}.screen.on{display:block}
+nav{display:none;background:var(--surf);border-top:1px solid var(--line);padding:8px 6px 10px}
+nav.on{display:flex}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--mut);padding:6px 0;border-radius:12px}
+nav button svg{width:22px;height:22px}
+nav button.on{color:var(--cyan)}
+svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+.sub{color:var(--mut);font-size:13px}
+h2{font-size:22px;margin-bottom:4px}
+h3{font-size:14px;margin:18px 0 10px}
+.tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:99px;display:inline-block;letter-spacing:.03em}
+.t-off{background:#3b82f633;color:#8fb7ff}.t-imp{background:#f8717133;color:var(--bad)}.t-ev{background:#8b5cf633;color:#c3adff}.t-info{background:#22d3ee33;color:var(--cyan)}
+.t-high{background:#f8717133;color:var(--bad)}.t-med{background:#fbbf2433;color:var(--warn)}.t-low{background:#34d39933;color:var(--ok)}
+.btn{background:linear-gradient(90deg,var(--blue),var(--vio));font-weight:700;border-radius:14px;padding:14px;width:100%;font-size:15px;letter-spacing:.04em}
+.sm{background:var(--blue);padding:7px 14px;border-radius:10px;font-size:12px;font-weight:700;width:auto;letter-spacing:.04em}
+.sm.done{background:var(--surf2);color:var(--ok)}
+.ghost{color:var(--cyan);font-size:13px;font-weight:600;padding:8px}
+input{width:100%;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:15px;color:var(--tx);font:inherit;margin-bottom:12px}
+label{font-size:12px;color:var(--mut);display:block;margin:0 0 6px 4px}
+.row{display:flex;align-items:center;gap:12px}.sp{justify-content:space-between}
+.chips{display:flex;gap:8px;margin:12px 0}
+.chip{padding:7px 14px;border-radius:99px;border:1px solid var(--line);font-size:12.5px;color:var(--mut)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.cls{border-left:4px solid var(--c);}
+.bar{height:7px;background:var(--surf2);border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--c,var(--cyan));border-radius:9px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:16px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
+.tile svg{width:26px;height:26px;color:var(--cyan)}
+.hero{background:linear-gradient(135deg,#1d3a8a,#5b3fd1);border:0}
+.av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--vio));display:grid;place-items:center;font:800 20px Sora}
+.chat .m{max-width:82%;padding:10px 13px;border-radius:16px;margin-bottom:10px;font-size:14px;line-height:1.45}
+.m.b{background:var(--surf2);border-bottom-left-radius:4px}.m.u{background:var(--blue);margin-left:auto;border-bottom-right-radius:4px}
+.tabs{display:flex;background:var(--surf);border-radius:14px;padding:4px;margin:14px 0}
+.tabs button{flex:1;padding:9px;border-radius:11px;font-size:13px;font-weight:600;color:var(--mut)}.tabs button.on{background:var(--surf2);color:var(--tx)}
+.menu{display:flex;justify-content:space-between;padding:15px 4px;border-bottom:1px solid var(--line);font-size:14px}
+.pill{width:100%}
+a{color:var(--cyan)}
+</style></head>
+<body>
+<div id="app">
+<main>
+
+<!-- AUTH -->
+<section class="screen on" id="auth">
+  <div style="padding-top:40px">
+    <div class="av" style="width:64px;height:64px;border-radius:20px;font-size:26px">C</div>
+    <h1 style="font-size:32px;margin:22px 0 6px">Campus<span style="color:var(--cyan)">Connect</span></h1>
+    <p class="sub" style="margin-bottom:30px">Timetable, attendance, notices, events and services in one place.</p>
+    <div id="loginF">
+      <label for="em">University email / Student ID</label>
+      <input id="em" placeholder="e.g. 22CS1042" autocomplete="username">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" placeholder="••••••••">
+      <button class="btn" onclick="login()">LOGIN</button>
+      <div class="row sp" style="margin-top:12px"><button class="ghost" onclick="authMode('reset')">Forgot password?</button><button class="ghost" onclick="authMode('create')">Create account</button></div>
+    </div>
+    <div id="authMsg" class="card" style="display:none"></div>
+    <p class="sub" style="text-align:center;margin-top:36px;font-size:12px">Made by Sakshee Srivastava</p>
+  </div>
+</section>
+
+<!-- HOME -->
+<section class="screen" id="home">
+  <div class="row sp"><div><p class="sub" id="dt"></p><h2 id="hi">Hi, Aarav</h2></div><div class="av" style="width:44px;height:44px;font-size:16px">AS</div></div>
+  <h3>Right now</h3>
+  <div class="card hero">
+    <p style="font-size:12px;opacity:.8">Next class · in 25 min</p>
+    <p class="d" style="font-size:20px;font-weight:800;margin:4px 0">Data Structures</p>
+    <p style="font-size:13px;opacity:.9">10:30 – 11:30 · Room B-204 · Prof. Mehta</p>
+  </div>
+  <div class="card row sp" onclick="go('schedule');tab('att')" style="cursor:pointer">
+    <div><p class="sub">Overall attendance</p><p class="d" style="font-size:24px;font-weight:800">87%</p><p class="sub">Above the 75% requirement</p></div>
+    <svg width="74" height="74" viewBox="0 0 36 36" style="stroke-width:3.6"><circle cx="18" cy="18" r="15.5" stroke="var(--surf2)"/><circle cx="18" cy="18" r="15.5" stroke="var(--cyan)" stroke-dasharray="84.7 97.4" transform="rotate(-90 18 18)"/></svg>
+  </div>
+  <h3>Do next</h3>
+  <div class="card row sp"><div><p style="font-weight:700;font-size:14px">DBMS assignment 3</p><p class="sub">Due today, 11:59 PM</p></div><span class="tag t-high">HIGH</span></div>
+  <div class="card row sp"><div><p style="font-weight:700;font-size:14px">Hostel fee receipt</p><p class="sub">Upload by Friday</p></div><span class="tag t-med">MEDIUM</span></div>
+  <h3>Explore later</h3>
+  <div class="card row sp"><div><p style="font-weight:700;font-size:14px">Hackathon Kickoff</p><p class="sub">Sat · Innovation Lab</p></div><button class="sm" onclick="go('events')">VIEW</button></div>
+  <h3>Quick access</h3>
+  <div class="grid" id="qa"></div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="screen" id="schedule">
+  <h2>Schedule &amp; Attendance</h2><p class="sub">Academic control in one view</p>
+  <div class="tabs"><button class="on" id="b-sch" onclick="tab('sch')">Schedule</button><button id="b-att" onclick="tab('att')">Attendance</button></div>
+  <div id="sch">
+    <div class="chips" id="days"></div>
+    <div id="cls"></div>
+  </div>
+  <div id="att" style="display:none">
+    <div class="card" style="text-align:center">
+      <svg width="130" height="130" viewBox="0 0 36 36" style="stroke-width:3"><circle cx="18" cy="18" r="15.5" stroke="var(--surf2)"/><circle cx="18" cy="18" r="15.5" stroke="var(--cyan)" stroke-dasharray="84.7 97.4" transform="rotate(-90 18 18)"/><text x="18" y="20" text-anchor="middle" fill="var(--tx)" stroke="none" font-size="8" font-weight="800" font-family="Sora">87%</text></svg>
+      <p class="sub">Overall · 87% present · safe above 75%</p>
+    </div>
+    <div id="subj"></div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section class="screen" id="tasks">
+  <h2>Tasks &amp; Notices</h2><p class="sub">What it is, when it's due, what to do</p>
+  <div class="tabs"><button class="on" id="b-tk" onclick="tab2('tk')">Tasks</button><button id="b-nt" onclick="tab2('nt')">Notices</button></div>
+  <div id="tk"><div class="chips" id="tf"></div><div id="tl"></div></div>
+  <div id="nt" style="display:none"></div>
+</section>
+
+<!-- EVENTS -->
+<section class="screen" id="events">
+  <h2>Events &amp; Clubs</h2><p class="sub">Campus life, kept apart from academics</p>
+  <h3>Upcoming events</h3><div id="ev"></div>
+  <h3>Clubs to join</h3><div id="cl"></div>
+</section>
+
+<!-- SERVICES -->
+<section class="screen" id="services">
+  <h2>Campus Services</h2><p class="sub">Everything the campus offers, as equal tiles</p>
+  <div class="grid" id="sv" style="margin-top:16px"></div>
+  <div class="card" id="svMsg" style="display:none;margin-top:14px"></div>
+</section>
+
+<!-- PROFILE -->
+<section class="screen" id="profile">
+  <div class="card row"><div class="av">AS</div><div><p class="d" style="font-weight:800;font-size:18px">Aarav Sharma</p><p class="sub">B.Tech CSE · Sem 4 · 22CS1042</p></div></div>
+  <div class="card" style="padding:4px 14px">
+    <div class="menu"><span>Personal Information</span><span class="sub">›</span></div>
+    <div class="menu"><span>Academic Profile</span><span class="sub">›</span></div>
+    <div class="menu"><span>Notifications</span><span class="sub">On ›</span></div>
+    <div class="menu"><span>Privacy &amp; Security</span><span class="sub">›</span></div>
+    <div class="menu" style="border:0"><span>Help &amp; Feedback</span><span class="sub">›</span></div>
+  </div>
+  <button class="btn" style="background:var(--surf2)" onclick="logout()">LOG OUT</button>
+</section>
+
+<!-- ASSISTANT -->
+<section class="screen" id="ai">
+  <h2>Assistant</h2><p class="sub">Summarizes your data; official sources stay the authority.</p>
+  <div class="chat" id="chat" style="margin-top:16px"><div class="m b">Hi Aarav! Ask me about your schedule, tasks or events.</div></div>
+  <div class="chips" style="flex-wrap:wrap" id="sug"></div>
+</section>
+</main>
+
+<nav id="nav" aria-label="Main"></nav>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const I={home:'<path d="M3 11l9-8 9 8v10H3z"/>',schedule:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/>',tasks:'<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/>',events:'<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.400 9.300l6-.7z"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+lib:'<path d="M4 4h6a2 2 0 012 2v14a2 2 0 00-2-2H4zM20 4h-6a2 2 0 00-2 2v14a2 2 0 012-2h6z"/>',host:'<path d="M3 21V9l9-6 9 6v12M9 21v-6h6v6"/>',bus:'<rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M7 21v-4M17 21v-4"/>',mess:'<path d="M6 3v8a3 3 0 006 0V3M9 3v18M18 3c-2 2-3 5-3 8h3v10"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.500 9a2.500 2.500 0 115 0c0 2-2.500 2-2.500 4M12 17h.01"/>',id:'<rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h3M6 16c.5-2 5.500-2 6 0"/>',ai:'<path d="M21 12a8 8 0 01-11.500 7.200L4 20l1-4.500A8 8 0 1121 12z"/>'};
+const ic=(k)=>`<svg viewBox="0 0 24 24">${I[k]}</svg>`;
+const NAV=[['home','Home'],['schedule','Schedule'],['tasks','Tasks'],['events','Events'],['profile','Profile']];
+$('#nav').innerHTML=NAV.map(([k,l])=>`<button data-k="${k}" onclick="go('${k}')" aria-label="${l}">${ic(k)}${l}</button>`).join('');
+const QA=[['lib','Library'],['host','Hostel'],['bus','Transport'],['mess','Mess'],['help','Support'],['id','ID Card']];
+$('#qa').innerHTML=QA.map(([k,l])=>`<button class="tile" onclick="go('services');svc('${l}')">${ic(k)}${l}</button>`).join('');
+$('#sv').innerHTML=QA.map(([k,l])=>`<button class="tile" onclick="svc('${l}')">${ic(k)}${l}</button>`).join('');
+const SV={Library:'3 books issued · 1 due in 4 days. Seat booking open for Reading Hall 2.',Hostel:'Block C, Room 214. Next warden notice: water supply, Sat 9–11 AM.',Transport:'Bus 7 (Dadri → Campus) departs 8:05 AM. Live tracking coming soon.','Mess':"Today's lunch: Rajma, rice, roti, salad. Dinner at 7:30 PM.",Support:'Raise a ticket for IT, academics or facilities. Avg reply: 6 hrs.','ID Card':'Digital ID active · Valid till Jun 2027 · Show at gate and library.'};
+function svc(n){const e=$('#svMsg');e.style.display='block';e.innerHTML=`<b class="d">${n}</b><p class="sub" style="margin-top:6px">${SV[n]}</p>`}
+
+// schedule
+const TT={Mon:[['09:00','Mathematics III','C-101','#3b82f6'],['10:30','Data Structures','B-204','#22d3ee'],['14:00','DBMS Lab','Lab 3','#8b5cf6']],Tue:[['09:00','Operating Systems','B-110','#34d399'],['11:30','Data Structures','B-204','#22d3ee']],Wed:[['10:00','Mathematics III','C-101','#3b82f6'],['13:00','Communication Skills','A-12','#fbbf24']],Thu:[['09:00','DBMS','B-205','#8b5cf6'],['10:30','Operating Systems','B-110','#34d399'],['15:00','Data Structures Lab','Lab 1','#22d3ee']],Fri:[['10:00','Mathematics III','C-101','#3b82f6'],['11:30','DBMS','B-205','#8b5cf6']]};
+let day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];if(!TT[day])day='Mon';
+function drawDays(){$('#days').innerHTML=Object.keys(TT).map(d=>`<button class="chip ${d==day?'on':''}" onclick="day='${d}';drawDays()">${d}</button>`).join('');
+$('#cls').innerHTML=TT[day].map(c=>`<div class="card cls row sp" style="--c:${c[3]}"><div><p style="font-weight:700;font-size:14px">${c[1]}</p><p class="sub">${c[0]} · Room ${c[2]}</p></div></div>`).join('')}
+drawDays();
+const AT=[['Data Structures',92,'#22d3ee'],['Mathematics III',88,'#3b82f6'],['DBMS',84,'#8b5cf6'],['Operating Systems',74,'#fbbf24'],['Communication Skills',95,'#34d399']];
+$('#subj').innerHTML=AT.map(a=>`<div class="card" style="--c:${a[2]}"><div class="row sp"><b style="font-size:14px">${a[0]}</b><span class="d" style="font-weight:700">${a[1]}%</span></div><div class="bar"><i style="width:${a[1]}%"></i></div><p class="sub" style="margin-top:6px;font-size:12px">${a[1]<75?'Below 75% — attend upcoming classes':'On track'}</p></div>`).join('');
+function tab(t){['sch','att'].forEach(x=>{$('#'+x).style.display=x==t?'block':'none';$('#b-'+x).classList.toggle('on',x==t)})}
+
+// tasks
+const TK=[['DBMS assignment 3','Today 11:59 PM','HIGH',0],['Math problem set 5','Tomorrow','MEDIUM',0],['OS lab report','Fri','MEDIUM',0],['Fee receipt upload','Fri','HIGH',0],['Read DS chapter 6','Next week','LOW',0]];
+let tf='All';
+const tcls={HIGH:'t-high',MEDIUM:'t-med',LOW:'t-low'};
+function drawTasks(){$('#tf').innerHTML=['All','Today','Priority'].map(f=>`<button class="chip ${f==tf?'on':''}" onclick="tf='${f}';drawTasks()">${f}</button>`).join('');
+$('#tl').innerHTML=TK.map((t,i)=>({t,i})).filter(({t})=>tf=='All'||(tf=='Today'&&t[1].startsWith('Today'))||(tf=='Priority'&&t[2]=='HIGH')).map(({t,i})=>`<div class="card row sp"><div><p style="font-weight:700;font-size:14px;${t[3]?'text-decoration:line-through;color:var(--mut)':''}">${t[0]}</p><p class="sub">Due ${t[1]}</p></div><div class="row"><span class="tag ${tcls[t[2]]}">${t[2]}</span><button class="sm ${t[3]?'done':''}" onclick="TK[${i}][3]^=1;drawTasks()">${t[3]?'DONE ✓':'DONE?'}</button></div></div>`).join('')||'<p class="sub">Nothing here.</p>'}
+drawTasks();
+const NT=[['Mid-sem timetable released','Exam cell','OFFICIAL','t-off'],['Hostel curfew update','Warden office','IMPORTANT','t-imp'],['Placement talk: Infosys','T&P Cell','EVENT','t-ev'],['Library hours extended in exam week','Library','INFO','t-info']];
+$('#nt').innerHTML=NT.map(n=>`<div class="card"><span class="tag ${n[3]}">${n[2]}</span><p style="font-weight:700;margin:8px 0 2px;font-size:14px">${n[0]}</p><p class="sub">${n[1]}</p></div>`).join('');
+function tab2(t){['tk','nt'].forEach(x=>{$('#'+x).style.display=x==t?'block':'none';$('#b-'+x).classList.toggle('on',x==t)})}
+
+// events
+const EV=[['Hackathon Kickoff','Sat, 22 Nov','Innovation Lab'],['Tech Fest Registration','Mon, 24 Nov','Main Auditorium'],['Placement Prep Workshop','Wed, 26 Nov','Seminar Hall']];
+$('#ev').innerHTML=EV.map((e,i)=>`<div class="card row sp"><div><p style="font-weight:700;font-size:14px">${e[0]}</p><p class="sub">${e[1]} · ${e[2]}</p></div><button class="sm" id="e${i}" onclick="toggle(this,'VIEW','REGISTERED ✓')">VIEW</button></div>`).join('');
+const CL=[['Coding Club','120 members'],['Robotics Society','64 members'],['Photography Club','88 members'],['Debate Union','52 members']];
+$('#cl').innerHTML=CL.map(c=>`<div class="card row sp"><div><p style="font-weight:700;font-size:14px">${c[0]}</p><p class="sub">${c[1]}</p></div><button class="sm" onclick="toggle(this,'JOIN','JOINED ✓')">JOIN</button></div>`).join('');
+function toggle(b,a,z){const d=b.classList.toggle('done');b.textContent=d?z:a}
+
+// assistant
+const ANS={'Show my attendance':'Your overall attendance is 87%. Operating Systems is lowest at 74%, just under the 75% mark.','What events are tomorrow?':'Tomorrow: Tech Fest Registration at the Main Auditorium (Mon, 24 Nov).','What is due today?':'DBMS assignment 3 is due today at 11:59 PM (HIGH priority).','Next class?':'Data Structures, 10:30 in Room B-204 with Prof. Mehta.'};
+$('#sug').innerHTML=Object.keys(ANS).map(q=>`<button class="chip" onclick="ask('${q}')">${q}</button>`).join('');
+function ask(q){const c=$('#chat');c.insertAdjacentHTML('beforeend',`<div class="m u">${q}</div><div class="m b">${ANS[q]} <span class="sub" style="font-size:11px">Check Notices for the official source.</span></div>`);$('main').scrollTop=1e5}
+
+// nav + auth
+function go(s){document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id==s));
+document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k==s));$('main').scrollTop=0}
+function login(){const v=$('#em').value.trim();if(v){$('#hi').textContent='Hi, '+(v.includes('@')?v.split('@')[0]:'Aarav')}
+$('#nav').classList.add('on');go('home')}
+function logout(){$('#nav').classList.remove('on');document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id=='auth'))}
+function authMode(m){const e=$('#authMsg');e.style.display='block';e.innerHTML=m=='reset'?'<b>Reset link sent.</b><p class="sub">Check your university email (demo).</p>':'<b>Create account</b><p class="sub">Use your university email or Student ID to verify identity (demo).</p>'}
+$('#dt').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+// add assistant to nav as floating button
+document.querySelector('#app').insertAdjacentHTML('beforeend','<button id="fab" aria-label="Assistant" onclick="go(\'ai\')" style="display:none;position:absolute;right:16px;bottom:86px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--vio));place-items:center;box-shadow:0 8px 24px #0008;color:#fff">'+ic('ai').replace('<svg','<svg width="24" height="24"')+'</button>');
+new MutationObserver(()=>{$('#fab').style.display=$('#nav').classList.contains('on')?'grid':'none'}).observe($('#nav'),{attributes:true});
+</script>
+</body></html>
